@@ -1,0 +1,19 @@
+{
+  "name": "blessed-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "electron": "^1.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  }
+}

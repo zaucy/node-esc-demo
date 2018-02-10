@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+        html, body {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-color: rgb(26, 26, 26);
+          overflow: hidden;
+        }
+        .entity {
+          width: 10px;
+          height: 20px;
+          border-radius: 2px;
+          background-color: magenta;
+          position: absolute;
+          top: 50%;
+          top: calc(50% - 10px);
+          left: 50%;
+          left: calc(50% - 5px);
+          transform: translate3d(0px, 0px, 0px);
+          transition: transform 100ms linear;
+        }
+      </style>
+  </head>
+  <body>
+    <script>
+      const electron = require("electron");
+
+      function getEntityElement(entityId) {
+        let entityElId = "entity-" + entityId;
+        let entityEl = document.getElementById(entityElId);
+    
+        if(!entityEl) {
+          entityEl = document.createElement("div");
+          entityEl.id = entityElId;
+          entityEl.classList.add("entity");
+          document.body.appendChild(entityEl);
+        }
+    
+        return entityEl;
+      }
+    
+      electron.ipcRenderer.on('message', (event, message) => {
+        if(message.position) {
+          let entityEl = getEntityElement(message.entityId);
+          let {x, y, z} = message.position;
+          let multiplier = 10;
+
+          x *= multiplier;
+          // Double our y multiplier to better match terminal version
+          y *= multiplier * 2;
+          z *= multiplier;
+
+          entityEl.style.transform = `translate3d(${x}px, ${-y}px, ${z}px)`;
+        }
+      });
+
+      window.addEventListener("keydown", e => {
+        switch(e.which) {
+          // Left Arrow
+          case 37:
+            electron.ipcRenderer.send('message', {
+              leftKey: true
+            });
+            break;
+          // Right Arrow
+          case 39:
+            electron.ipcRenderer.send('message', {
+              rightKey: true
+            });
+            break;
+            // Up Arrow
+          case 38:
+            electron.ipcRenderer.send('message', {
+              jumpKey: true
+            });
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>
