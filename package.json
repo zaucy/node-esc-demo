@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "blessed": "^0.1.81",
-    "electron": "^1.8.2"
+    "electron": "^9.4.0"
   },
   "devDependencies": {
     "nodemon": "^1.14.12"
